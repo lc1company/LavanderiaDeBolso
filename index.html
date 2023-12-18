@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LavanderiaDeBolso</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Regular+Brush+Regular">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        /* Estilos CSS */
+        body {
+            background-color: #FFD700;
+            color: #333; /* Cor de texto principal */
+            font-family: Arial, sans-serif;
+            margin-right: auto;
+            margin-left: auto;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        @font-face {
+            font-family: 'Regular Brush Regular';
+            src: url('Regular Brush Regular.woff') format('woff');
+        }
+
+        header {
+            justify-content: center;
+            position: relative;
+            background-color: #FFD700; /* Amarelo */
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            padding: 0;
+            font-size: 24px;
+            color: #333; /* Cor de texto principal */
+        }
+
+        nav ul {
+            position: relative;
+            display: flex;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: #FFD700; /* Amarelo */
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: #333; /* Cor de texto principal */
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        /* Estilos para o banner de slides */
+        .slideshow-container {
+            max-width: 100%;
+            margin: auto;
+            overflow: auto;
+            position: relative;
+        }
+
+        .mySlides {
+            display: none;
+        }
+
+        .mySlides img {
+            width: 100%;
+            height: auto;
+        }
+
+        footer {
+            background-color: #FFD700; /* Amarelo */
+            padding: 10px;
+            text-align: center;
+        }
+
+        .como-funciona {
+            display: flex;
+            align-items: center;
+        }
+
+        .como-funciona img {
+            max-width: 50%;
+            object-fit: cover;
+        }
+
+        .descricao {
+            margin-left: 20px;
+            color: #000000;
+            padding: 5px;
+        }
+
+        p {
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        h2 {
+            font-size: 1.5em;
+            color: #ff0000;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 10px;
+        }
+
+        .categoria {
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-top: 20px;
+        }
+
+        .produtos-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            overflow: auto;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .produto {
+            background-color: #028dff;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+        }
+
+        .produto img {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 10px;
+            border-radius: 50%;
+        }
+
+        .produto .detalhes {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            z-index: 1;
+        }
+
+        .produto:hover .detalhes {
+            display: block;
+        }
+
+        .produto .botoes {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .produto .botoes button {
+            background-color: #25f72c;
+            color: rgb(0, 0, 0);
+            border: none;
+            padding: 25px 30px;
+            border-radius: 50%;
+            margin: 0 5px;
+            cursor: pointer;
+            justify-content: center;
+        }
+
+        .produto .botoes button.remover {
+            background-color: red;
+        }
+
+        .carrinho-container {
+            background-color: #333;
+            color: #ffffff;
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 20px;
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 2;
+            overflow-y: auto; /* Adicionado scroll vertical */
+            max-height: 600px; /* Altura máxima do carrinho */
+        }
+
+        .carrinho-icon {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .carrinho-icon .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 3px 6px;
+            font-size: 12px;
+        }
+
+        .cliente-info {
+            margin-bottom: 10px;
+        }
+
+        .cliente-info label {
+            font-weight: bold;
+            display: block;
+        }
+
+        .pedido-item {
+            margin-top: 10px;
+        }
+
+        .pedido-item:last-child {
+            margin-bottom: 10px;
+        }
+
+        .pedido-item h3 {
+            margin: 0;
+        }
+
+        .pedido-item p {
+            margin: 0;
+        }
+
+        .pedido-total {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .frete {
+            margin-top: 10px;
+        }
+
+        .observacao {
+            margin-top: 10px;
+        }
+
+        /* Estilizar o ícone de carrinho */
+        .carrinho-icon .fa-shopping-cart {
+            font-size: 30px;
+        }
+
+        /* Estilizar botões de pagamento */
+        #metodo-pagamento label {
+            font-weight: bold;
+        }
+
+        #metodo-pagamento input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        /* Estilizar botões */
+        .botao {
+            background-color: #00ff08;
+            color: rgb(0, 0, 0);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        .botao.remover {
+            background-color: red;
+        }
+
+        /* Estilizar a opção de troco */
+        #troco-option {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .preco {
+            color: #fff73c;
+            text-align: center;
+            font-size: 25px;
+            margin-top: -10px;
+            font-family: 'Regular Brush Regular';
+        }
+
+        .antigo-preco {
+            color: red;
+            text-align: center;
+            margin-left: 75px;
+            text-decoration: line-through;
+            font-size: 15px;
+            font-family: 'Regular Brush Regular';
+        }
+
+        .nome-produto {
+            text-align: center;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 25px;
+            color: rgb(0, 0, 0);
+            margin-left: 0px;
+            font-family: 'Regular Brush Regular';
+        }
+
+        .banner-secundario {
+            position: relative;
+            max-width: 100%;
+            overflow: hidden;
+            margin-top: 5%;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .slide:first-child {
+            display: block;
+        }
+
+        .escondido {
+            display: none;
+        }
+
+        .sobreposicaoInfoProduto {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .info-produto {
+            background: #ffffff;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+            width: 60%;
+            height: auto;
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto;
+            max-height: 90%;
+            margin-left: auto;
+            margin-right: auto;  
+        }
+
+        .fecharInfoProduto {
+            background: red;
+            color: rgb(255, 255, 255);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 15px;
+            left: 20%;
+            top: 1%;
+            position: absolute;
+            margin-top: 5%;
+        }
+
+        .mostrarInfoProduto {
+            background-color: #fff73c;
+            color: #000;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .info-produto img {
+            width: 100%;
+            height: auto;
+            align-items: center;
+            text-align: center;
+            justify-content: center;
+        }
+
+        .notificacao {
+            display: none;
+            background-color: #ff5e00;
+            color: rgb(255, 255, 255);
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 10px;
+            animation: slide 2s ease-in-out;
+            z-index: 2000;
+            min-height: 20px;
+            font-size: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body onload="limparCampos()">
+   <div class="container">
+    <header>
+        <H1>LavanderiaDeBolso</H1>
+    </header>
+
+     <!-- Banner-->
+    <div class="slideshow-container">
+        <!-- Slides de Imagens -->
+        <div class="mySlides fade">
+            <img src="https://i.ibb.co/1MVVsw0/banner-1-screen-selecao.png" alt="Banner 1" loading="lazy">
+        </div>
+
+        <div class="mySlides fade">
+            <img src="https://i.ibb.co/drfQHYK/banner-2-screen-selecao.png" alt="Banner 2" loading="lazy">
+        </div>
+    </div>
+
+    <div class="como-funciona">
+        <img src="https://i.ibb.co/c2TM9zH/maquina-de-lavar-site.png" alt="como funciona img" loading="lazy">
+        <div class="descricao">
+            <h2>Como funciona?</h2>
+
+            <p>Escolha o serviço desejado, e Clique em Mostrar Detalhes.</p>
+            <p>Veja os Detalhes sobre o serviço e adicione ao carrinho</p>
+            <P>Preencha Suas Informações no carrinho</P>
+            <P>Clique em finalizar Pedido para iniciar a conversa com nossa equipe</P>
+            <p>Siga as instruções da nossa equipe</p>
+            <P>Nossos agentes logísticos realizarão a coleta da roupa suja no seu endereço</P>
+            <p>Você é notificado em Tempo Real</p>
+            <p>Receba Sua Roupa Limpa no Seu endereço sem precisar Sair de Casa</p>
+            <p>Faça o Pagamento ao Nosso Agente logístico na Entrega da roupa limpa</p>
+            <p>Simples Assim!</p>
+        </div>
+    </div>
+
+    <div class="banner-secundario">
+        <img class="slide" src="https://i.ibb.co/F52RZtq/banner.png" alt="slide 1" loading="lazy">
+        <img class="slide" src="https://i.ibb.co/0J1sNYt/banner-Refri.png" alt="slide 2" loading="lazy">
+        <img class="slide" src="https://i.ibb.co/nc9DcCy/Banner-skol.png" alt="slide 3" loading="lazy">
+    </div>
+
+    <div class="categoria">Roupas:</div>
+    <div class="produtos-container">
+        <div class="produto">
+            <img src="https://i.ibb.co/SP04d7R/roupa.png" alt="imagem item1" loading="lazy">
+            <p class="nome-produto">KIT 4 camisas</p>
+            <p class="antigo-preco">R$ 10,90</p>
+            <p class="preco">R$ 8,99</p>
+            <button class="mostrarInfoProduto">Mostrar Detalhes</button>
+            <div class="sobreposicaoInfoProduto escondido">
+                <div class="info-produto">
+                    <button class="fecharInfoProduto">X</button>
+                    <p class="texto-designer">produtos</p>
+                    <div class="botoes">
+                        <button onclick="adicionarItem('KIT 4 Camisas', 8.99)">
+                            <i class="fa fa-cart-plus"></i></button>
+                        <button onclick="removerItem('KIT 4 Camisas')" style="background-color:red;">
+                            <i class="fa fa-trash"></i></button>    
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="produto">
+            <img src="" alt="produto imagem2" loading="lazy">
+            <p class="nome-produto">KIT 4 camisas</p>
+            <p class="antigo-preco">R$ 10,90</p>
+            <p class="preco">R$ 8,99</p>
+            <div class="botoes">
+                <button onclick="adicionarItem('Galão 10l Água Mineral', 10.99)">
+                   <i class="fa fa-cart-plus"></i></button>
+                <button onclick="removerItem('Galão 10l Água Mineral')" style="background-color:red">
+                    <i class="fa fa-trash"></i></button>
+            </div>
+        </div>
+
+        <div class="produto">
+            <img src="galao 20l.jpg" alt="galao 20l">
+            <p class="nome-produto">Galão 20L</p>
+            <p class="antigo-preco">R$ 10,90</p>
+            <p class="preco">R$ 8,99</p>
+            <div class="botoes">
+                <button onclick="adicionarItem('Galão 10l Água Mineral', 10.99)">
+                   <i class="fa fa-cart-plus"></i></button>
+                <button onclick="removerItem('Galão 10l Água Mineral')" style="background-color:red">
+                    <i class="fa fa-trash"></i></button>
+            </div>
+        </div>
+
+        <div class="produto">
+            <img src="galao 20l.jpg" alt="galao 20l">
+            <p class="nome-produto">Galão 20L</p>
+            <p class="antigo-preco">R$ 10,90</p>
+            <p class="preco">R$ 8,99</p>
+            <div class="botoes">
+                <button onclick="adicionarItem('Galão 10l Água Mineral', 10.99)">
+                   <i class="fa fa-cart-plus"></i></button>
+                <button onclick="removerItem('Galão 10l Água Mineral')" style="background-color:red">
+                    <i class="fa fa-trash"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="categoria">Roupas de Cama (Lençois ededrons etc...):</div>
+    <div class="produtos-container">
+        <!-- Produtos de aguas aqui -->
+        <div class="produto">
+            <img src="galao 20l.jpg" alt="galao 20l">
+            <p class="nome-produto">Galão 20L</p>
+            <p class="antigo-preco">R$ 10,90</p>
+            <p class="preco">R$ 8,99</p>
+            <div class="botoes">
+                <button onclick="adicionarItem('Galão 20l Água Mineral', 8.99)">
+                   <i class="fa fa-cart-plus"></i></button>
+                <button onclick="removerItem('Galão 20l Água Mineral')" style="background-color:red">
+                    <i class="fa fa-trash"></i></button>
+            </div>
+        </div>
+
+        <div class="produto">
+            <img src="galao 20l.jpg" alt="galao 20l">
+            <p class="nome-produto">Galão 20L</p>
+            <p class="antigo-preco">R$ 10,90</p>
+            <p class="preco">R$ 8,99</p>
+            <div class="botoes">
+                <button onclick="adicionarItem('Galão 10l Água Mineral', 10.99)">
+                   <i class="fa fa-cart-plus"></i></button>
+                <button onclick="removerItem('Galão 10l Água Mineral')" style="background-color:red">
+                    <i class="fa fa-trash"></i></button>
+            </div>
+        </div>
+
+        <div class="produto">
+            <img src="galao 20l.jpg" alt="galao 20l">
+            <p class="nome-produto">Galão 20L</p>
+            <p class="antigo-preco">R$ 10,90</p>
+            <p class="preco">R$ 8,99</p>
+            <div class="botoes">
+                <button onclick="adicionarItem('Galão 10l Água Mineral', 10.99)">
+                   <i class="fa fa-cart-plus"></i></button>
+                <button onclick="removerItem('Galão 10l Água Mineral')" style="background-color:red">
+                    <i class="fa fa-trash"></i></button>
+            </div>
+        </div>
+
+        <div class="produto">
+            <img src="galao 20l.jpg" alt="galao 20l">
+            <p class="nome-produto">Galão 20L</p>
+            <p class="antigo-preco">R$ 10,90</p>
+            <p class="preco">R$ 8,99</p>
+            <div class="botoes">
+                <button onclick="adicionarItem('Galão 10l Água Mineral', 10.99)">
+                   <i class="fa fa-cart-plus"></i></button>
+                <button onclick="removerItem('Galão 10l Água Mineral')" style="background-color:red">
+                    <i class="fa fa-trash"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="categoria">Roupas Delicadas:</div>
+    <div class="produtos-container">
+        <!-- Produtos de aguas aqui -->
+        <div class="produto">
+            <img src="galao 20l.jpg" alt="galao 20l">
+            <p class="nome-produto">Galão 20L</p>
+            <p class="antigo-preco">R$ 10,90</p>
+            <p class="preco">R$ 8,99</p>
+            <div class="botoes">
+                <button onclick="adicionarItem('Galão 20l Água Mineral', 8.99)">
+                   <i class="fa fa-cart-plus"></i></button>
+                <button onclick="removerItem('Galão 20l Água Mineral')" style="background-color:red">
+                    <i class="fa fa-trash"></i></button>
+            </div>
+        </div>
+
+        <div class="produto">
+            <img src="galao 20l.jpg" alt="galao 20l">
+            <p class="nome-produto">Galão 20L</p>
+            <p class="antigo-preco">R$ 10,90</p>
+            <p class="preco">R$ 8,99</p>
+            <div class="botoes">
+                <button onclick="adicionarItem('Galão 10l Água Mineral', 10.99)">
+                   <i class="fa fa-cart-plus"></i></button>
+                <button onclick="removerItem('Galão 10l Água Mineral')" style="background-color:red">
+                    <i class="fa fa-trash"></i></button>
+            </div>
+        </div>
+
+        <div class="produto">
+            <img src="galao 20l.jpg" alt="galao 20l">
+            <p class="nome-produto">Galão 20L</p>
+            <p class="antigo-preco">R$ 10,90</p>
+            <p class="preco">R$ 8,99</p>
+            <div class="botoes">
+                <button onclick="adicionarItem('Galão 10l Água Mineral', 10.99)">
+                   <i class="fa fa-cart-plus"></i></button>
+                <button onclick="removerItem('Galão 10l Água Mineral')" style="background-color:red">
+                    <i class="fa fa-trash"></i></button>
+            </div>
+        </div>
+
+        <div class="produto">
+            <img src="galao 20l.jpg" alt="galao 20l">
+            <p class="nome-produto">Galão 20L</p>
+            <p class="antigo-preco">R$ 10,90</p>
+            <p class="preco">R$ 8,99</p>
+            <div class="botoes">
+                <button onclick="adicionarItem('Galão 10l Água Mineral', 10.99)">
+                   <i class="fa fa-cart-plus"></i></button>
+                <button onclick="removerItem('Galão 10l Água Mineral')" style="background-color:red">
+                    <i class="fa fa-trash"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <div id="notificacao" class="notificacao"></div>
+
+    <!-- Carrinho de Compras -->
+    <div class="carrinho-container">
+        <div class="carrinho-icon" onclick="mostrarCarrinho()">
+            <i class="fa fa-shopping-cart"></i>
+            <span class="badge" id="contadorItens">0</span>
+        </div>
+        <div id="carrinho" style="display: none;">
+            <h2>Informações do Pedido</h2>
+            <p>Pague Só Quando Receber Suas Roupas Limpas</p>
+            <p>Pagamento Na Entrega!</p><br>
+            <div class="cliente-info">
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" placeholder="Seu nome">
+                <label for="endereco">Endereço:</label>
+                <input type="text" id="endereco" placeholder="Seu endereço">
+            </div>
+            <div id="itensPedido">
+                <!-- Itens do pedido aqui -->
+            </div>
+            <div class="frete">
+                <label for="frete">Frete:</label>
+                <select id="frete" onchange="atualizarTotal()">
+                    <option value="0">(Grátis) Pedidos acima de R$ 29,90</option>
+                    <option value="5">(R$ 5,00) Pedidos inferior a R$ 29,90</option>
+                </select>
+            </div>
+            <div class="observacao">
+                <label for="observacao">Observação:</label>
+                <input type="text" id="observacao" placeholder="Observações do pedido">
+            </div>
+            <div id="metodo-pagamento">
+                <label>Método de Pagamento:</label><br>
+                <input type="radio" id="cartaoCredito" name="pagamento" value="Cartão de Crédito" onchange="mostrarTroco()">
+                <label for="cartaoCredito">Cartão de Crédito</label><br>
+                <input type="radio" id="cartaoDebito" name="pagamento" value="Cartão de Débito" onchange="mostrarTroco()">
+                <label for="cartaoDebito">Cartão de Débito</label><br>
+                <input type="radio" id="dinheiro" name="pagamento" value="Dinheiro" onchange="mostrarTroco()">
+                <label for="dinheiro">Dinheiro</label>
+                <input type="radio" id="pix" name="pagamento" value="pix" onchange="mostrarChavePix()">
+                <label for="pix">PIX</label><br>
+            </div>
+
+            <div id="chave-pix" style="display: none;">
+              <label for="pix">PIX</label>
+              <input type="text" id="pix" name="pix">
+            </div>
+
+            <div id="troco-option">
+                <label for="troco">Troco para quanto?</label>
+                <input type="number" id="troco" step="0.01">
+            </div>
+            <div class="pedido-total">Total: R$ <span id="total">0,00</span></div>
+            <button class="botao" onclick="finalizarPedido()">Finalizar Pedido</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2023 LC Company</p>
+        <p>CNPJ: 50.402.071/0001-99</p>
+        <P>LavanderiaDeBolso</P>
+        <a href="link_da_politica_de_privacidade" target="_blank">Política de Privacidade</a>
+    </footer>
+
+    <script>
+        // Função para alternar slides
+        var slideIndex = 0;
+        showSlides();
+
+        function showSlides() {
+            var i;
+            var slides = document.getElementsByClassName("mySlides");
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) {
+                slideIndex = 1;
+            }
+            slides[slideIndex - 1].style.display = "block";
+            setTimeout(showSlides, 2000); // Trocar imagem a cada 2 segundos
+        }
+
+        // Função para avançar/retroceder slides manualmente
+        function plusSlides(n) {
+            showSlidesManually(slideIndex += n);
+        }
+
+        // Função para mostrar slides manualmente
+        function showSlidesManually(n) {
+            var i;
+            var slides = document.getElementsByClassName("mySlides");
+            if (n > slides.length) {
+                slideIndex = 1;
+            }
+            if (n < 1) {
+                slideIndex = slides.length;
+            }
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slides[slideIndex - 1].style.display = "block";
+        }
+
+        var carrinho = [];
+        var total = 0;
+
+        function adicionarItem(nome, preco) {
+            var item = {
+                nome: nome,
+                preco: preco,
+                quantidade: 1
+            };
+
+            // Verifica se o item já está no carrinho
+            for (var i = 0; i < carrinho.length; i++) {
+                if (carrinho[i].nome === nome) {
+                    carrinho[i].quantidade++;
+                    atualizarCarrinho();
+                    return;
+                }
+            }
+
+            carrinho.push(item);
+            atualizarCarrinho();
+            mostrarNotificacao(`${nome} foi adicionado ao carrinho.`);
+        }
+
+        function mostrarChavePix() {
+            const metodoPagamento = document.getElementByid("pagamento").value;
+            const ChavePix = document.getElementById("chave-pix");
+
+            if (metodoPagamento === "pix") {
+                chavePix.style.display = "block";
+            } else {
+                chavePix.style.display ="none";
+            }
+        }
+
+        function removerItem(nome) {
+            for (var i = 0; i < carrinho.length; i++) {
+                if (carrinho[i].nome === nome) {
+                    if (carrinho[i].quantidade > 1) {
+                        carrinho[i].quantidade--;
+                    } else {
+                        carrinho.splice(i, 1);
+                    }
+                    atualizarCarrinho();
+                    return;
+                }
+            }
+        }
+
+        function atualizarCarrinho() {
+            var carrinhoContainer = document.getElementById("itensPedido");
+            var totalElement = document.getElementById("total");
+            var contadorItens = document.getElementById("contadorItens");
+
+            carrinhoContainer.innerHTML = "";
+            total = 0;
+
+            for (var i = 0; i < carrinho.length; i++) {
+                var item = carrinho[i];
+                var itemElement = document.createElement("div");
+                itemElement.className = "pedido-item";
+                itemElement.innerHTML = "<h3>" + item.nome + "</h3><p>Quantidade: " + item.quantidade + "</p><p>Preço: R$ " + (item.preco * item.quantidade).toFixed(2) + "</p><button class=\"botao remover\" onclick=\"removerItem('" + item.nome + "')\"><i class=\"fa fa-trash\"></i></button>";
+                carrinhoContainer.appendChild(itemElement);
+                total += item.preco * item.quantidade;
+            }
+
+            totalElement.textContent = total.toFixed(2);
+            contadorItens.textContent = carrinho.reduce(function (total, item) {
+                return total + item.quantidade;
+            }, 0);
+            atualizarTotal();
+        }
+
+        function mostrarCarrinho() {
+            var carrinhoDiv = document.getElementById("carrinho");
+            if (carrinhoDiv.style.display === "none" || carrinhoDiv.style.display === "") {
+                carrinhoDiv.style.display = "block";
+            } else {
+                carrinhoDiv.style.display = "none";
+            }
+        }
+
+        function mostrarTroco() {
+            var metodoPagamento = document.querySelector('input[name="pagamento"]:checked').value;
+            var trocoOption = document.getElementById("troco-option");
+            if (metodoPagamento === "Dinheiro") {
+                trocoOption.style.display = "block";
+            } else {
+                trocoOption.style.display = "none";
+            }
+        }
+
+        function atualizarTotal() {
+            var frete = parseFloat(document.getElementById("frete").value);
+            var troco = parseFloat(document.getElementById("troco").value) || 0;
+            total = parseFloat(total) + frete;
+            total = (total - troco).toFixed(2);
+            document.getElementById("total").textContent = total;
+        }
+
+        function finalizarPedido() {
+            var nome = document.getElementById("nome").value;
+            var endereco = document.getElementById("endereco").value;
+            var frete = parseFloat(document.getElementById("frete").value);
+            var metodoPagamento = document.querySelector('input[name="pagamento"]:checked').value;
+            var troco = parseFloat(document.getElementById("troco").value) || 0;
+            var observacao = document.getElementById("observacao").value;
+
+            var freteTexto = frete === 0 ? "Pedido Acima de R$ 29,90" : "Pedido Inferior R$ 29,90";
+
+            var totalFinal = parseFloat(total) + troco;
+            totalFinal = totalFinal.toFixed(2);
+
+            if (carrinho.length === 0 || nome === "" || endereco === "" || metodoPagamento === undefined) {
+                alert("Preencha todos os campos, adicione itens ao carrinho e selecione o método de pagamento.");
+            } else {
+                var mensagemPedido = "Pedido de " + nome + ":\n";
+                for (var i = 0; i < carrinho.length; i++) {
+                    var item = carrinho[i];
+                    mensagemPedido += item.quantidade + "x " + item.nome + " - R$ " + (item.preco * item.quantidade).toFixed(2) + "\n";
+                }
+                mensagemPedido += "Frete: R$ " + frete.toFixed(2) + " (" + freteTexto + ")\n";
+                mensagemPedido += "Total: R$ " + totalFinal + "\n";
+                mensagemPedido += "Método de Pagamento: " + metodoPagamento + "\n";
+                mensagemPedido += "Endereço: " + endereco + "\n";
+                mensagemPedido += "Troco: R$ " + troco.toFixed(2) + "\n";
+                mensagemPedido += "Observações: " + observacao;
+
+                // Abre o WhatsApp com a mensagem pré-preenchida
+                window.open("https://wa.me/19996564968?text=" + encodeURIComponent(mensagemPedido), "_blank");
+
+                alert("Pedido finalizado! Confira os detalhes no carrinho.");
+                limparCampos();
+            }
+        }
+
+        function limparCampos() {
+            document.getElementById("nome").value = "";
+            document.getElementById("endereco").value = "";
+            document.getElementById("frete").value = "0";
+            document.getElementById("observacao").value = "";
+            document.getElementById("cartaoCredito").checked = false;
+            document.getElementById("cartaoDebito").checked = false;
+            document.getElementById("dinheiro").checked = false;
+            document.getElementById("troco").value = "";
+            document.getElementById("troco-option").style.display = "none";
+            total = 0;
+            carrinho = [];
+            atualizarCarrinho();
+        }
+
+        const slides = document.querySelectorAll('.slide');
+        let currentSlide = 0;
+
+        function nextSlide() {
+            slides[currentSlide].style.display ='none';
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].style.display ='block';
+        }
+
+        setInterval(nextSlide, 2000);
+
+        const mostrarInfoProdutos = document.querySelectorAll(".mostrarInfoProduto");
+        const sobreposicaoInfoProdutos = document.querySelectorAll(".sobreposicaoInfoProduto");
+        const fecharInfoProdutos = document.querySelectorAll(".fecharInfoProduto");
+
+        mostrarInfoProdutos.forEach((botao, index) => {
+            botao.addEventListener("click", function() {
+                sobreposicaoInfoProdutos[index].style.display = "block";
+            });
+
+            fecharInfoProdutos[index].addEventListener("click", function() {
+                sobreposicaoInfoProdutos[index].style.display = "none";
+            });
+        });
+
+        function mostrarNotificacao(mensagem) {
+            const notificacao = document.getElementById("notificacao");
+            notificacao.textContent = mensagem;
+            notificacao.style.display = "block";
+            setTimeout(() => {
+                notificacao.style.display = "none";
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
+
